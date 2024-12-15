@@ -56,18 +56,6 @@
             display: none;
             text-align: center;
         }
-
-        .toggle-link {
-            text-align: center;
-            display: block;
-            margin-top: 10px;
-            cursor: pointer;
-            color: #007BFF;
-        }
-
-        .toggle-link:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 
@@ -78,8 +66,7 @@
         <form id="auth-form">
             <input type="email" id="email" placeholder="Correo electrónico" required>
             <input type="password" id="password" placeholder="Contraseña" required>
-            <input type="password" id="passwordConfirm" placeholder="Confirmar Contraseña" required
-                style="visibility: hidden;" disabled>
+            style="visibility: hidden;" disabled>
             <button type="submit">Iniciar sesión</button>
             <!-- Botón de redirección que será visible después de un inicio de sesión exitoso -->
         </form>
@@ -87,16 +74,14 @@
 
         <p id="error-message" class="error-message">Hubo un error al procesar su solicitud. Por favor, intente
             nuevamente.</p>
-        <a id="toggle-link" class="toggle-link">¿No tienes una cuenta? Regístrate</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        const API_BASE = 'http://localhost:4000/api';
+        const API_BASE = 'http://localhost:3000/api';
         const currentPage = '/login';
         const formTitle = document.getElementById('form-title');
         const authForm = document.getElementById('auth-form');
-        const toggleLink = document.getElementById('toggle-link');
         const errorMessage = document.getElementById('error-message');
 
         function getToken() {
@@ -130,8 +115,6 @@
             window.location.href = '/index.html'; // Redirige si el token es válido
         }
 
-        let isLogin = true; // Estado para determinar si es login o registro
-        // Función de login
         async function login(email, password) {
             try {
                 const response = await axios.post(`${API_BASE}/auth/sign-in`, { email, password });
@@ -155,26 +138,6 @@
             }
         }
 
-        async function register(email, password, passwordConfirm) {
-            try {
-                const name = prompt('Ingrese su nombre:');
-                const lastName = prompt('Ingrese su apellido:');
-                const username = prompt('Ingrese su nombre de usuario:');
-                response = await axios.post(`${API_BASE}/auth/sign-up`, { name, lastName, username, email, password, passwordConfirm });
-                formTitle.textContent = 'Iniciar sesión';
-                authForm.querySelector('button').textContent = 'Iniciar sesión';
-                toggleLink.textContent = '¿No tienes una cuenta? Regístrate';
-                passwordConfirm.style.visibility = 'hidden';
-                passwordConfirm.disabled = true;
-
-            } catch (error) {
-                console.error('Error al iniciar sesión:', error);
-                alert('Credenciales incorrectas');
-            }
-
-
-        }
-
 
         // Función para manejar el envío del formulario
         authForm.addEventListener('submit', async function (event) {
@@ -182,14 +145,9 @@
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const passwordConfirm = document.getElementById('passwordConfirm').value;
             try {
                 let response;
-                if (isLogin) {
-                    login(email, password);
-                } else {
-                    register(email, password, passwordConfirm);
-                }
+                login(email, password);
 
             } catch (error) {
                 if (error.response) {
@@ -205,25 +163,7 @@
             }
         });
 
-        // Función para alternar entre login y registro
-        toggleLink.addEventListener('click', function () {
-            isLogin = !isLogin;
-            if (isLogin) {
-                formTitle.textContent = 'Iniciar sesión';
-                authForm.querySelector('button').textContent = 'Iniciar sesión';
-                toggleLink.textContent = '¿No tienes una cuenta? Regístrate';
-                passwordConfirm.style.visibility = 'hidden';
-                passwordConfirm.disabled = true;
-            } else {
-                formTitle.textContent = 'Registrarse';
-                authForm.querySelector('button').textContent = 'Registrarse';
-                toggleLink.textContent = '¿Ya tienes una cuenta? Inicia sesión';
-                passwordConfirm.style.visibility = 'visible';
-                passwordConfirm.disabled = false;
-            }
-            errorMessage.style.display = 'none';
-            authForm.reset();
-        });
+
 
     </script>
 
