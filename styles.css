@@ -11,8 +11,8 @@
 
         .form-container {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 50px;
+            border-radius: 30px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
         }
@@ -22,9 +22,9 @@
         }
 
         .form-container input {
-            width: 100%;
+            width: 93%;
             padding: 10px;
-            margin: 10px 0;
+            margin: 8px 0;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
