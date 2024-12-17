@@ -48,9 +48,8 @@ async function login(email, password) {
             // Guardar el token en el localStorage
             localStorage.setItem('token', JSON.stringify(token));
             localStorage.setItem('codigoUsuario', JSON.stringify(codigo));
-            if (confirm("Hola")) {
-                window.location.href = '/index.html';
-            }
+
+            window.location.href = '/index.html';
         } else {
             alert(response.data.errors.message);
         }
