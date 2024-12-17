@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajeria Innovalat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f8f9fa;
+        }
+
+        /* Header */
+        header {
+            width: 100%;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            color: white;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header .logo h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* Menú de acciones */
+        .menu {
+            display: flex;
+            gap: 15px;
+            /* Espacio entre botones */
+        }
+
+
+        header button {
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Estilo específico para botones primarios */
+        .btn-primary {
+            background-color: #28a745;
+            /* Verde */
+        }
+
+        .btn-primary:hover {
+            background-color: #218838;
+            /* Verde oscuro */
+        }
+
+        /* Estilo específico para el botón "Cerrar Sesión" */
+        .btn-danger {
+            background-color: #dc3545;
+            /* Rojo */
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            /* Rojo oscuro */
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .add-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .add-button:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        td {
+            color: #555;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .pagination select {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        /*Form*/
+        .form-container {
+            display: none;
+            /* Ocultarlo por defecto */
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container.active {
+            display: block;
+            /* Mostrar cuando se le agregue la clase `active` */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0px 0px 4px rgba(0, 123, 255, 0.5);
+        }
+
+        button[type="submit"],
+        button[type="button"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        button[type="submit"]:hover,
+        button[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /************************/
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>Mensajería Innovalat</h1>
+        </div>
+        <nav class="menu">
+            <button id="send-message" class="btn-primary">Enviar Mensaje</button>
+            <button id="logout" class="btn-danger">Cerrar Sesión</button>
+        </nav>
+    </header>
+
+
+    <div class="main-container">
+        <button class="add-button" id="toggle-add-form">Agregar Cliente</button>
+
+        <div class="form-container" id="add-client-form-container">
+            <form id="add-client-form">
+                <div class="form-group">
+                    <label for="identificacion">Identificación:</label>
+                    <input type="text" id="identificacion" name="identificacion" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombres">Nombres:</label>
+                    <input type="text" id="nombres" name="nombres" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellidos">Apellidos:</label>
+                    <input type="text" id="apellidos" name="apellidos" required>
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo:</label>
+                    <input type="email" id="correo" name="correo" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono">
+                </div>
+                <div class="form-group">
+                    <label for="celular">Celular:</label>
+                    <input type="text" id="celular" name="celular">
+                </div>
+                <div class="form-group">
+                    <label for="sexo">Sexo:</label>
+                    <select id="sexo" name="sexo" required>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
+                        <option value="O">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                </div>
+                <div class="form-group">
+                    <label for="codigo_ciudad">Código de Ciudad:</label>
+                    <input type="text" id="codigo_ciudad" name="codigo_ciudad">
+                </div>
+                <div class="form-group">
+                    <label for="ocupacion">Ocupación:</label>
+                    <input type="text" id="ocupacion" name="ocupacion" required>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" required>
+                </div>
+                <div class="form-group">
+                    <label for="referencia">Referencia:</label>
+                    <input type="text" id="referencia" name="referencia" required>
+                </div>
+                <button type="submit">Guardar Cliente</button>
+                <button type="button" id="back-to-content" class="back-button">Volver</button>
+            </form>
+        </div>
+
+        <div class="content-container" id="content-container">
+            <div class="search-bar">
+                <input type="text" id="search" placeholder="Buscar clientes...">
+            </div>
+
+            <div class="table-container">
+                <table id="clients-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Identificación</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Los datos se llenarán dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <label for="page-size">Registros por página:</label>
+                <select id="page-size">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+                <button id="prev-page">Anterior</button>
+                <span id="page-info">Página 1</span>
+                <button id="next-page">Siguiente</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+        let currentPage = 1;
+        let pageSize = 10;
+
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+        function getCodigoUsuario() {
+            return localStorage.getItem('codigoUsuario');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeApp();
+        });
+
+        // Initialize the application
+        function initializeApp() {
+            loadClients();
+
+            document.getElementById('page-size').addEventListener('change', onPageSizeChange);
+            document.getElementById('prev-page').addEventListener('click', onPreviousPage);
+            document.getElementById('next-page').addEventListener('click', onNextPage);
+            document.getElementById('toggle-add-form').addEventListener('click', toggleAddClientForm);
+            document.getElementById('back-to-content').addEventListener('click', toggleAddClientForm);
+
+            document.getElementById('add-client-form').addEventListener('submit', onAddClientSubmit);
+            document.getElementById('logout').addEventListener('click', onLogout);
+        }
+
+        // Fetch and render clients
+        async function loadClients() {
+            try {
+                const response = await axios.get(`${API_BASE}/clientes`, {
+                    params: { page: currentPage, limit: pageSize }
+                });
+
+                const { clients, totalPages } = response.data;
+
+                renderTable(clients);
+                updatePaginationInfo(totalPages);
+            } catch (error) {
+                console.error('Error al cargar clientes:', error);
+                alert('Error al cargar clientes.');
+            }
+        }
+
+        // Handle page size change
+        function onPageSizeChange(event) {
+            pageSize = parseInt(event.target.value);
+            currentPage = 1; // Reset to the first page
+            loadClients();
+        }
+
+        // Handle previous page
+        function onPreviousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                loadClients();
+            }
+        }
+
+        // Handle next page
+        function onNextPage() {
+            currentPage++;
+            loadClients();
+        }
+
+        // Toggle visibility between content and form
+        function toggleAddClientForm() {
+            const contentContainer = document.getElementById('content-container');
+            const formContainer = document.getElementById('add-client-form-container');
+
+            if (formContainer.style.display === 'none' || formContainer.style.display === '') {
+                formContainer.style.display = 'block'; // Show form
+                contentContainer.style.display = 'none'; // Hide content
+            } else {
+                formContainer.style.display = 'none'; // Hide form
+                contentContainer.style.display = 'block'; // Show content
+            }
+        }
+
+        // Handle client form submission
+        async function onAddClientSubmit(event) {
+            event.preventDefault();
+
+            const clientData = {
+                identificacion: document.getElementById('identificacion').value,
+                nombres: document.getElementById('nombres').value,
+                apellidos: document.getElementById('apellidos').value,
+                correo: document.getElementById('correo').value,
+                telefono: document.getElementById('telefono').value,
+                celular: document.getElementById('celular').value,
+                sexo: document.getElementById('sexo').value,
+                fecha_nacimiento: document.getElementById('fecha_nacimiento').value,
+                codigo_ciudad: document.getElementById('codigo_ciudad').value,
+                ocupacion: document.getElementById('ocupacion').value,
+                direccion: document.getElementById('direccion').value,
+                referencia: document.getElementById('referencia').value,
+                estado: true,
+                codigo_usuario: getCodigoUsuario()
+            };
+
+            try {
+                await axios.post(`${API_BASE}/clientes`, clientData);
+                alert('Cliente agregado exitosamente');
+                document.getElementById('add-client-form').reset();
+                loadClients();
+            } catch (error) {
+                console.error('Error al agregar cliente:', error);
+                alert('Error al agregar cliente.');
+            }
+        }
+
+        // Función auxiliar para manejar valores NULL o undefined
+        function formatValue(value) {
+            return value === null || value === undefined ? '' : value;
+        }
+
+        // Render table with clients
+        function renderTable(clients) {
+            const tbody = document.getElementById('clients-table').querySelector('tbody');
+            tbody.innerHTML = '';
+
+            if (clients.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7">No se encontraron clientes</td></tr>';
+                return;
+            }
+
+            clients.forEach(client => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+            <td>${formatValue(client.codigo_cliente)}</td>
+            <td>${formatValue(client.identificacion)}</td>
+            <td>${formatValue(client.nombres)}</td>
+            <td>${formatValue(client.apellidos)}</td>
+            <td>${formatValue(client.correo)}</td>
+            <td>${formatValue(client.telefono) || formatValue(client.celular)}</td>
+            <td class="actions">
+                <button class="edit" onclick="editClient(${client.codigo_cliente})">Editar</button>
+                <button class="delete" onclick="confirmDelete(${client.codigo_cliente})">Eliminar</button>
+            </td>
+        `;
+                tbody.appendChild(row);
+            });
+        }
+
+
+        // Update pagination info
+        function updatePaginationInfo(totalPages) {
+            document.getElementById('page-info').textContent = `Página ${currentPage} de ${totalPages}`;
+            document.getElementById('prev-page').disabled = currentPage <= 1;
+            document.getElementById('next-page').disabled = currentPage >= totalPages;
+        }
+
+        // Logout user
+        async function onLogout() {
+            try {
+                const response = await axios.post(`${API_BASE}/auth/sign-out`);
+
+                // Mensaje de éxito
+                alert(response.data.message);
+
+                // Eliminar el token del almacenamiento local
+                localStorage.removeItem('token');
+
+                // Redirigir al usuario a la página de inicio de sesión
+                window.location.href = '/login.html';
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+                alert('Error al cerrar sesión.');
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
