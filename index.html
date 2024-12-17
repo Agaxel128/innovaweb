@@ -370,6 +370,32 @@
         function getToken() {
             return localStorage.getItem('token');
         }
+
+        function isTokenValid() {
+            const token = getToken();
+            if (!token) return false;
+
+            // Verifica si el token tiene el formato de un JWT (tres partes separadas por ".")
+            const tokenParts = token.split('.');
+            if (tokenParts.length !== 3) {
+                console.warn('El token no tiene el formato esperado de un JWT.');
+                return false;
+            }
+
+            try {
+                // Decodifica la carga útil del JWT
+                const payload = JSON.parse(atob(tokenParts[1]));
+                const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
+                return payload.exp > currentTime; // El token es válido si no ha expirado
+            } catch (error) {
+                console.error('Error al verificar el token:', error);
+                return false; // Token inválido
+            }
+        }
+
+        if (!isTokenValid()) {
+            window.location.href = '/login.html'; // Redirige si el token no es válido
+        }
         function getCodigoUsuario() {
             return localStorage.getItem('codigoUsuario');
         }
