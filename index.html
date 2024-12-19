@@ -531,8 +531,8 @@
             <td>${client.correo}</td>
             <td>${client.telefono || client.celular}</td>
             <td class="actions">
-                <button class="edit">Editar</button>
-                <button class="delete">Eliminar</button>
+                <button class="edit" onclick="editClient(${client.codigo_cliente})">Editar</button>
+                <button class="delete" onclick="confirmDelete(${client.codigo_cliente})">Eliminar</button>
             </td>
         `;
                 tbody.appendChild(row);
@@ -592,6 +592,68 @@
             } catch (error) {
                 console.error('Error al cerrar sesión:', error);
                 alert('Error al cerrar sesión.');
+            }
+        }
+
+        // Función para editar un cliente
+        async function editClient(id) {
+            try {
+                const response = await axios.get(`${API_BASE}/clientes/${id}`);
+                const client = response.data;
+
+                console.log(client);
+                // Llenar el formulario de edición con los datos del cliente
+                document.getElementById('identificacion').value = client.identificacion;
+                document.getElementById('nombres').value = client.nombres;
+                document.getElementById('apellidos').value = client.apellidos;
+                document.getElementById('correo').value = client.correo;
+                document.getElementById('telefono').value = client.telefono;
+                document.getElementById('celular').value = client.celular;
+
+                // Mostrar el formulario de edición
+                toggleAddClientForm();
+
+                // Modificar el evento de envío del formulario para actualizar en lugar de crear
+                const form = document.getElementById('add-client-form');
+                form.onsubmit = async (event) => {
+                    event.preventDefault();
+
+                    const updatedClient = {
+                        identificacion: document.getElementById('identificacion').value,
+                        nombres: document.getElementById('nombres').value,
+                        apellidos: document.getElementById('apellidos').value,
+                        correo: document.getElementById('correo').value,
+                        telefono: document.getElementById('telefono').value,
+                        celular: document.getElementById('celular').value,
+                    };
+
+                    try {
+                        await axios.put(`${API_BASE}/clientes/${id}`, updatedClient);
+                        alert('Cliente actualizado exitosamente');
+                        toggleAddClientForm(); // Ocultar formulario
+                        loadClients(); // Refrescar lista de clientes
+                    } catch (error) {
+                        console.error('Error al actualizar el cliente:', error);
+                        alert('Error al actualizar el cliente.');
+                    }
+                };
+            } catch (error) {
+                console.error('Error al cargar los datos del cliente:', error);
+                alert('Error al cargar los datos del cliente.');
+            }
+        }
+
+        // Función para eliminar un cliente
+        async function confirmDelete(id) {
+            if (confirm('¿Estás seguro de que deseas eliminar este cliente?')) {
+                try {
+                    await axios.delete(`${API_BASE}/clientes/${id}`);
+                    alert('Cliente eliminado exitosamente');
+                    loadClients(); // Refrescar lista de clientes
+                } catch (error) {
+                    console.error('Error al eliminar el cliente:', error);
+                    alert('Error al eliminar el cliente.');
+                }
             }
         }
 

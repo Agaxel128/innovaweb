@@ -86,3 +86,4 @@ authForm.addEventListener('submit', async function (event) {
         errorMessage.style.display = 'block';
     }
 });
+
