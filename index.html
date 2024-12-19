@@ -253,80 +253,60 @@
             <h1>Mensajería Innovalat</h1>
         </div>
         <nav class="menu">
-            <button id="send-message" class="btn-primary">Enviar Mensaje</button>
+            <button id="clients-btn" class="btn-primary">Clientes</button>
+            <button id="messages-btn" class="btn-primary">Mensajes</button>
             <button id="logout" class="btn-danger">Cerrar Sesión</button>
         </nav>
     </header>
 
-
     <div class="main-container">
-        <button class="add-button" id="toggle-add-form">Agregar Cliente</button>
+        <div id="clients-section" class="section">
+            <h2>Clientes</h2>
+            <button class="add-button" id="toggle-add-form">Agregar Cliente</button>
 
-        <div class="form-container" id="add-client-form-container">
-            <form id="add-client-form">
-                <div class="form-group">
-                    <label for="identificacion">Identificación:</label>
-                    <input type="text" id="identificacion" name="identificacion" required>
-                </div>
-                <div class="form-group">
-                    <label for="nombres">Nombres:</label>
-                    <input type="text" id="nombres" name="nombres" required>
-                </div>
-                <div class="form-group">
-                    <label for="apellidos">Apellidos:</label>
-                    <input type="text" id="apellidos" name="apellidos" required>
-                </div>
-                <div class="form-group">
-                    <label for="correo">Correo:</label>
-                    <input type="email" id="correo" name="correo" required>
-                </div>
-                <div class="form-group">
-                    <label for="telefono">Teléfono:</label>
-                    <input type="text" id="telefono" name="telefono">
-                </div>
-                <div class="form-group">
-                    <label for="celular">Celular:</label>
-                    <input type="text" id="celular" name="celular">
-                </div>
-                <div class="form-group">
-                    <label for="sexo">Sexo:</label>
-                    <select id="sexo" name="sexo" required>
-                        <option value="M">Masculino</option>
-                        <option value="F">Femenino</option>
-                        <option value="O">Otro</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
-                </div>
-                <div class="form-group">
-                    <label for="codigo_ciudad">Código de Ciudad:</label>
-                    <input type="text" id="codigo_ciudad" name="codigo_ciudad">
-                </div>
-                <div class="form-group">
-                    <label for="ocupacion">Ocupación:</label>
-                    <input type="text" id="ocupacion" name="ocupacion" required>
-                </div>
-                <div class="form-group">
-                    <label for="direccion">Dirección:</label>
-                    <input type="text" id="direccion" name="direccion" required>
-                </div>
-                <div class="form-group">
-                    <label for="referencia">Referencia:</label>
-                    <input type="text" id="referencia" name="referencia" required>
-                </div>
-                <button type="submit">Guardar Cliente</button>
-                <button type="button" id="back-to-content" class="back-button">Volver</button>
-            </form>
-        </div>
-
-        <div class="content-container" id="content-container">
-            <div class="search-bar">
-                <input type="text" id="search" placeholder="Buscar clientes...">
+            <div class="form-container" id="add-client-form-container">
+                <form id="add-client-form">
+                    <div class="form-group">
+                        <label for="identificacion">Identificación:</label>
+                        <input type="text" id="identificacion" name="identificacion" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombres">Nombres:</label>
+                        <input type="text" id="nombres" name="nombres" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidos">Apellidos:</label>
+                        <input type="text" id="apellidos" name="apellidos" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="correo">Correo:</label>
+                        <input type="email" id="correo" name="correo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono:</label>
+                        <input type="text" id="telefono" name="telefono">
+                    </div>
+                    <div class="form-group">
+                        <label for="celular">Celular:</label>
+                        <input type="text" id="celular" name="celular">
+                    </div>
+                    <div class="form-group">
+                        <label for="sexo">Sexo:</label>
+                        <select id="sexo" name="sexo" required>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                            <option value="O">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                    </div>
+                    <button type="submit">Guardar Cliente</button>
+                    <button type="button" id="back-to-content" class="back-button">Volver</button>
+                </form>
             </div>
-
-            <div class="table-container">
+            <div id="content-container">
                 <table id="clients-table">
                     <thead>
                         <tr>
@@ -340,25 +320,40 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Los datos se llenarán dinámicamente -->
+
                     </tbody>
                 </table>
-            </div>
-
-            <div class="pagination">
-                <label for="page-size">Registros por página:</label>
-                <select id="page-size">
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                </select>
-                <button id="prev-page">Anterior</button>
-                <span id="page-info">Página 1</span>
-                <button id="next-page">Siguiente</button>
+                <div class="pagination">
+                    <label for="page-size">Registros por página:</label>
+                    <select id="page-size">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <button id="prev-page">Anterior</button>
+                    <span id="page-info">Página 1</span>
+                    <button id="next-page">Siguiente</button>
+                </div>
             </div>
         </div>
 
+        <div id="messages-section" class="section hidden">
+            <h2>Mensajes</h2>
+            <table id="messages-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Celular</th>
+                        <th>Mensaje</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -375,7 +370,6 @@
             const token = getToken();
             if (!token) return false;
 
-            // Verifica si el token tiene el formato de un JWT (tres partes separadas por ".")
             const tokenParts = token.split('.');
             if (tokenParts.length !== 3) {
                 console.warn('El token no tiene el formato esperado de un JWT.');
@@ -383,19 +377,19 @@
             }
 
             try {
-                // Decodifica la carga útil del JWT
                 const payload = JSON.parse(atob(tokenParts[1]));
-                const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
-                return payload.exp > currentTime; // El token es válido si no ha expirado
+                const currentTime = Math.floor(Date.now() / 1000);
+                return payload.exp > currentTime;
             } catch (error) {
                 console.error('Error al verificar el token:', error);
-                return false; // Token inválido
+                return false;
             }
         }
 
         if (!isTokenValid()) {
-            window.location.href = '/login.html'; // Redirige si el token no es válido
+            window.location.href = '/login.html';
         }
+
         function getCodigoUsuario() {
             return localStorage.getItem('codigoUsuario');
         }
@@ -404,21 +398,42 @@
             initializeApp();
         });
 
-        // Initialize the application
         function initializeApp() {
             loadClients();
 
+            // Configuración de eventos para la paginación y el formulario de clientes
             document.getElementById('page-size').addEventListener('change', onPageSizeChange);
             document.getElementById('prev-page').addEventListener('click', onPreviousPage);
             document.getElementById('next-page').addEventListener('click', onNextPage);
             document.getElementById('toggle-add-form').addEventListener('click', toggleAddClientForm);
             document.getElementById('back-to-content').addEventListener('click', toggleAddClientForm);
-
             document.getElementById('add-client-form').addEventListener('submit', onAddClientSubmit);
             document.getElementById('logout').addEventListener('click', onLogout);
+
+            // Referencias a los botones y secciones
+            const clientsBtn = document.getElementById('clients-btn');
+            const messagesBtn = document.getElementById('messages-btn');
+            const clientsSection = document.getElementById('clients-section');
+            const messagesSection = document.getElementById('messages-section');
+
+            // Manejadores para alternar entre secciones
+            clientsBtn.addEventListener('click', () => {
+                clientsSection.style.display = 'block';
+                messagesSection.style.display = 'none';
+            });
+
+            messagesBtn.addEventListener('click', () => {
+                clientsSection.style.display = 'none';
+                messagesSection.style.display = 'block';
+                loadMessages();
+            });
+
+            // Inicializar mostrando solo la sección de clientes
+            clientsSection.style.display = 'block';
+            messagesSection.style.display = 'none';
         }
 
-        // Fetch and render clients
+
         async function loadClients() {
             try {
                 const response = await axios.get(`${API_BASE}/clientes`, {
@@ -435,14 +450,12 @@
             }
         }
 
-        // Handle page size change
         function onPageSizeChange(event) {
             pageSize = parseInt(event.target.value);
-            currentPage = 1; // Reset to the first page
+            currentPage = 1;
             loadClients();
         }
 
-        // Handle previous page
         function onPreviousPage() {
             if (currentPage > 1) {
                 currentPage--;
@@ -450,27 +463,24 @@
             }
         }
 
-        // Handle next page
         function onNextPage() {
             currentPage++;
             loadClients();
         }
 
-        // Toggle visibility between content and form
         function toggleAddClientForm() {
             const contentContainer = document.getElementById('content-container');
             const formContainer = document.getElementById('add-client-form-container');
 
             if (formContainer.style.display === 'none' || formContainer.style.display === '') {
-                formContainer.style.display = 'block'; // Show form
-                contentContainer.style.display = 'none'; // Hide content
+                formContainer.style.display = 'block';
+                contentContainer.style.display = 'none';
             } else {
-                formContainer.style.display = 'none'; // Hide form
-                contentContainer.style.display = 'block'; // Show content
+                formContainer.style.display = 'none';
+                contentContainer.style.display = 'block';
             }
         }
 
-        // Handle client form submission
         async function onAddClientSubmit(event) {
             event.preventDefault();
 
@@ -502,12 +512,6 @@
             }
         }
 
-        // Función auxiliar para manejar valores NULL o undefined
-        function formatValue(value) {
-            return value === null || value === undefined ? '' : value;
-        }
-
-        // Render table with clients
         function renderTable(clients) {
             const tbody = document.getElementById('clients-table').querySelector('tbody');
             tbody.innerHTML = '';
@@ -520,47 +524,77 @@
             clients.forEach(client => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-            <td>${formatValue(client.codigo_cliente)}</td>
-            <td>${formatValue(client.identificacion)}</td>
-            <td>${formatValue(client.nombres)}</td>
-            <td>${formatValue(client.apellidos)}</td>
-            <td>${formatValue(client.correo)}</td>
-            <td>${formatValue(client.telefono) || formatValue(client.celular)}</td>
+            <td>${client.codigo_cliente}</td>
+            <td>${client.identificacion}</td>
+            <td>${client.nombres}</td>
+            <td>${client.apellidos}</td>
+            <td>${client.correo}</td>
+            <td>${client.telefono || client.celular}</td>
             <td class="actions">
-                <button class="edit" onclick="editClient(${client.codigo_cliente})">Editar</button>
-                <button class="delete" onclick="confirmDelete(${client.codigo_cliente})">Eliminar</button>
+                <button class="edit">Editar</button>
+                <button class="delete">Eliminar</button>
             </td>
         `;
                 tbody.appendChild(row);
             });
         }
 
+        async function loadMessages() {
+            try {
+                const response = await axios.get(`${API_BASE}/mensajes`, {
+                    params: { page: currentPage, limit: pageSize }
+                });
 
-        // Update pagination info
+                const messages = response.data.mensajes; // La respuesta contiene los mensajes
+                renderMessagesTable(messages);
+            } catch (error) {
+                console.error('Error al cargar mensajes:', error);
+                alert('Error al cargar mensajes.');
+            }
+        }
+
+        function renderMessagesTable(messages) {
+            const tbody = document.getElementById('messages-table').querySelector('tbody');
+            tbody.innerHTML = '';
+
+            if (messages.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4">No se encontraron mensajes</td></tr>';
+                return;
+            }
+
+            messages.forEach(message => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${message.id_envio}</td>
+                    <td>${message.numero_celular}</td>
+                    <td>${message.mensaje}</td>
+                    <td>${message.estado_envio ? 'Enviado' : 'Pendiente'}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+
+
         function updatePaginationInfo(totalPages) {
             document.getElementById('page-info').textContent = `Página ${currentPage} de ${totalPages}`;
             document.getElementById('prev-page').disabled = currentPage <= 1;
             document.getElementById('next-page').disabled = currentPage >= totalPages;
         }
 
-        // Logout user
         async function onLogout() {
             try {
                 const response = await axios.post(`${API_BASE}/auth/sign-out`);
 
-                // Mensaje de éxito
                 alert(response.data.message);
-
-                // Eliminar el token del almacenamiento local
                 localStorage.removeItem('token');
-
-                // Redirigir al usuario a la página de inicio de sesión
                 window.location.href = '/login.html';
             } catch (error) {
                 console.error('Error al cerrar sesión:', error);
                 alert('Error al cerrar sesión.');
             }
         }
+
 
     </script>
 
