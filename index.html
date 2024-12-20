@@ -121,6 +121,10 @@
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         }
 
+        .hidden {
+            display: none;
+        }
+
         th,
         td {
             padding: 15px;
@@ -281,7 +285,8 @@
 
         /* Estilo para el botón Editar */
         button.edit {
-            background-color: #007bff; /* Azul */
+            background-color: #007bff;
+            /* Azul */
             color: white;
             padding: 5px 10px;
             border: none;
@@ -292,12 +297,14 @@
         }
 
         button.edit:hover {
-            background-color: #0056b3; /* Azul oscuro */
+            background-color: #0056b3;
+            /* Azul oscuro */
         }
 
         /* Estilo para el botón Eliminar */
         button.delete {
-            background-color: #dc3545; /* Rojo */
+            background-color: #dc3545;
+            /* Rojo */
             color: white;
             padding: 5px 10px;
             border: none;
@@ -308,10 +315,95 @@
         }
 
         button.delete:hover {
-            background-color: #c82333; /* Rojo oscuro */
+            background-color: #c82333;
+            /* Rojo oscuro */
         }
 
         /************************/
+
+        /* Formularios */
+        .form-section {
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .form-section input {
+            flex: 1 1 calc(50% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-section label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+
+        .flex {
+            display: flex;
+        }
+
+        /* Contenedor de selección */
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        select {
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        select:hover {
+            border-color: #007bff;
+            box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.2);
+        }
+
+        select:focus {
+            border-color: #007bff;
+            background-color: #e9f5ff;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+
+        option {
+            font-size: 16px;
+            padding: 10px;
+            background-color: #fff;
+            color: #333;
+        }
     </style>
 
 </head>
@@ -324,11 +416,63 @@
         <nav class="menu">
             <button id="clients-btn" class="btn-primary">Clientes</button>
             <button id="messages-btn" class="btn-primary">Mensajes</button>
+            <button id="general-btn" class="btn-primary">General</button>
             <button id="logout" class="btn-danger">Cerrar Sesión</button>
         </nav>
     </header>
 
     <div class="main-container">
+        <div id="general-section" class="hidden">
+            <h2>Gestión General</h2>
+
+            <label for="general-entity">Seleccionar entidad:</label>
+            <select id="general-entity">
+                <option value="empresas">Empresas</option>
+                <option value="estados">Estados</option>
+                <option value="operadoras">Operadoras</option>
+                <option value="plataformas">Plataformas</option>
+            </select>
+
+
+            <div id="form-empresas" class="form-section hidden">
+                <input id="empresas-nombre" placeholder="Nombre" type="text">
+                <input id="empresas-codigo_ciudad" placeholder="Código Ciudad" type="text">
+                <input id="empresas-ocupacion" placeholder="Ocupación" type="text">
+                <input id="empresas-direccion" placeholder="Dirección" type="text">
+                <input id="empresas-referencia" placeholder="Referencia" type="text">
+                <input id="empresas-telefono" placeholder="Teléfono" type="text">
+                <input id="empresas-celular" placeholder="Celular" type="text">
+                <input id="empresas-correo" placeholder="Correo" type="email">
+                <label>
+                    Estado: <input id="empresas-estado" type="checkbox">
+                </label>
+            </div>
+
+            <div id="form-estados" class="form-section hidden">
+                <input id="estados-descripcion" placeholder="Descripción" type="text">
+            </div>
+
+
+            <div id="form-operadoras" class="form-section hidden">
+                <input id="operadoras-codigo_pais" placeholder="Código País" type="text">
+                <input id="operadoras-descripcion" placeholder="Descripción" type="text">
+            </div>
+
+            <div id="form-plataformas" class="form-section hidden">
+                <input id="plataformas-descripcion" placeholder="Descripción" type="text">
+            </div>
+
+            <button onclick="showForm('empresas', 'add')">Agregar Nuevo</button>
+
+            <table id="general-table">
+                <thead>
+                    <tr></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+
         <div id="clients-section" class="section">
             <h2>Clientes</h2>
             <button class="add-button" id="toggle-add-form">Agregar Cliente</button>
@@ -419,7 +563,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                 </tbody>
             </table>
         </div>
@@ -482,20 +626,54 @@
             // Referencias a los botones y secciones
             const clientsBtn = document.getElementById('clients-btn');
             const messagesBtn = document.getElementById('messages-btn');
+            const generalBtn = document.getElementById('general-btn');
             const clientsSection = document.getElementById('clients-section');
             const messagesSection = document.getElementById('messages-section');
+            const generalSection = document.getElementById('general-section');
 
             // Manejadores para alternar entre secciones
             clientsBtn.addEventListener('click', () => {
                 clientsSection.style.display = 'block';
                 messagesSection.style.display = 'none';
+                generalSection.style.display = 'none';
             });
 
             messagesBtn.addEventListener('click', () => {
                 clientsSection.style.display = 'none';
                 messagesSection.style.display = 'block';
-                loadMessages();
+                generalSection.style.display = 'none';
+                loadMessages(); // Llama a la función para cargar mensajes
             });
+
+            generalBtn.addEventListener('click', () => {
+                clientsSection.style.display = 'none';
+                messagesSection.style.display = 'none';
+                generalSection.style.display = 'block';
+                loadGeneralData('empresas'); // Por defecto, carga datos de empresas
+            });
+
+            // Cambiar la entidad en la sección General
+            document.getElementById('general-entity').addEventListener('change', (event) => {
+                const selectedEntity = event.target.value;
+
+                // Ocultar todos los formularios
+                const allForms = document.querySelectorAll('.form-section');
+                allForms.forEach((form) => {
+                    form.classList.add('hidden');
+                    form.classList.remove('flex');
+                });
+
+                // Actualizar los datos de la tabla
+                loadGeneralData(selectedEntity);
+
+                // Cambiar el comportamiento dinámico del botón "Agregar Nuevo"
+                const addButton = document.querySelector('button[onclick^="showForm"], button[onclick^="addEntity"], button[onclick^="editEntity"]');
+                if (addButton) {
+                    addButton.textContent = "Agregar Nuevo";
+                    addButton.setAttribute('onclick', `showForm('${selectedEntity}', 'add')`);
+                }
+            });
+
 
             // Inicializar mostrando solo la sección de clientes
             clientsSection.style.display = 'block';
@@ -641,6 +819,256 @@
                 `;
                 tbody.appendChild(row);
             });
+        }
+
+        // Referencia al contenedor general de formularios
+        const formSections = {
+            empresas: document.getElementById('form-empresas'),
+            estados: document.getElementById('form-estados'),
+            operadoras: document.getElementById('form-operadoras'),
+            plataformas: document.getElementById('form-plataformas'),
+        };
+
+        let currentEntity = 'empresas'; // Entidad activa por defecto
+        let editMode = false; // Indica si estamos en modo edición
+        let editId = null; // ID del elemento en edición
+
+        async function loadGeneralData(entity) {
+            try {
+                const response = await axios.get(`${API_BASE}/${entity}`);
+                renderGeneralTable(response.data, entity);
+            } catch (error) {
+                console.error(`Error al cargar datos de ${entity}:`, error);
+                alert(`Error al cargar datos de ${entity}.`);
+            }
+        }
+
+        // Renderizar Tabla
+        function renderGeneralTable(data, entity) {
+            const tableHeaders = document.querySelector('#general-table thead tr');
+            const tableBody = document.querySelector('#general-table tbody');
+
+            tableHeaders.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            if (data.length > 0) {
+                // Encabezados
+                Object.keys(data[0]).forEach((key) => {
+                    const th = document.createElement('th');
+                    th.textContent = key === 'estado' ? 'Estado' : key; // Renombrar encabezado si es "estado"
+                    tableHeaders.appendChild(th);
+                });
+
+                // Acciones
+                const actionsTh = document.createElement('th');
+                actionsTh.textContent = 'Acciones';
+                tableHeaders.appendChild(actionsTh);
+
+                // Determinar la clave de identificación según la entidad
+                const idKeyMap = {
+                    empresas: 'id_empresa',
+                    estados: 'id_estado',
+                    operadoras: 'id_operadora',
+                    plataformas: 'id_plataforma',
+                };
+                const idKey = idKeyMap[entity] || 'id'; // Usa 'id' como predeterminado si no coincide
+
+                // Filas
+                data.forEach((row) => {
+                    const tr = document.createElement('tr');
+
+                    Object.entries(row).forEach(([key, value]) => {
+                        const td = document.createElement('td');
+
+                        // Verificar si el campo es "estado" y traducir su valor
+                        if (key === 'estado') {
+                            td.textContent = value ? 'Activo' : 'Inactivo';
+                        } else {
+                            td.textContent = value;
+                        }
+
+                        tr.appendChild(td);
+                    });
+
+                    // Botones de acción
+                    const actionsTd = document.createElement('td');
+                    actionsTd.classList.add('actions'); // Agrega la clase "actions"
+                    actionsTd.innerHTML = `
+                        <button class="edit" onclick="populateForm(${row[idKey]}, '${entity}')">Editar</button>
+                        <button class="delete" onclick="deleteEntity(${row[idKey]}, '${entity}')">Eliminar</button>
+                    `;
+
+                    tr.appendChild(actionsTd);
+                    tableBody.appendChild(tr);
+                });
+            } else {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.colSpan = '100%';
+                td.textContent = 'No se encontraron registros';
+                tr.appendChild(td);
+                tableBody.appendChild(tr);
+            }
+        }
+
+
+
+        // Completar formulario para edición
+        async function populateForm(id, entity) {
+            try {
+                const response = await axios.get(`${API_BASE}/${entity}/${id}`);
+                const data = response.data;
+
+                // Llenar los campos del formulario dinámicamente
+                Object.keys(data).forEach((key) => {
+                    const input = document.querySelector(`#${entity}-${key}`);
+                    console.log(input);
+                    if (input) {
+                        if (input.type === 'checkbox') {
+                            input.checked = data[key];
+                        } else {
+                            input.value = data[key];
+                        }
+                    }
+                });
+
+                // Llamar a showForm para cambiar a modo "edit"
+                showForm(entity, 'edit', id);
+            } catch (error) {
+                console.error(`Error al cargar datos para edición:`, error);
+                alert('Error al cargar datos para edición.');
+            }
+        }
+
+
+        // Capitaliza el texto
+        function capitalize(text) {
+            return text.charAt(0).toUpperCase() + text.slice(1);
+        }
+
+
+        // Función para limpiar el formulario
+        function clearForm(entity) {
+            const inputs = document.querySelectorAll(`#form-${entity} input`);
+            inputs.forEach((input) => {
+                if (input.type === 'checkbox') {
+                    input.checked = false;
+                } else {
+                    input.value = '';
+                }
+            });
+        }
+
+        // Función para agregar una entidad
+        async function addEntity(entity) {
+            const formData = gatherFormData(entity);
+            console.log(formData);
+            if (!formData) return;
+
+            try {
+                await axios.post(`${API_BASE}/${entity}`, formData);
+                alert(`${capitalize(entity)} agregado con éxito.`);
+                loadGeneralData(entity);
+                clearForm(entity);
+            } catch (error) {
+                console.error(`Error al agregar ${entity}:`, error);
+                alert(`Error al agregar ${entity}.`);
+            }
+        }
+
+        // Función para editar una entidad
+        async function editEntity(id, entity) {
+            const formData = gatherFormData(entity);
+            if (!formData) return;
+
+            try {
+                await axios.put(`${API_BASE}/${entity}/${id}`, formData);
+                alert(`${capitalize(entity)} actualizado con éxito.`);
+                loadGeneralData(entity); // Refrescar datos
+                clearForm(entity); // Limpia el formulario después de editar
+                showForm(entity, 'add'); // Cambiar a modo agregar
+            } catch (error) {
+                console.error(`Error al actualizar ${entity}:`, error);
+                alert(`Error al actualizar ${entity}.`);
+            }
+        }
+        // Eliminar Entidad
+        async function deleteEntity(id, entity) {
+            if (confirm(`¿Estás seguro de que deseas eliminar este registro de ${entity}?`)) {
+                try {
+                    await axios.delete(`${API_BASE}/${entity}/${id}`);
+                    alert(`${capitalize(entity)} eliminado con éxito.`);
+                    loadGeneralData(entity);
+                } catch (error) {
+                    console.error(`Error al eliminar ${entity}:`, error);
+                    alert(`Error al eliminar ${entity}.`);
+                }
+            }
+        }
+
+        // Función para obtener datos del formulario dinámico
+        function gatherFormData(entity) {
+            const formData = {};
+            const inputs = document.querySelectorAll(`#form-${entity} input`);
+
+            console.log(inputs);
+
+            inputs.forEach((input) => {
+                const key = input.id.split('-')[1]; // Obtiene el nombre del campo
+                if (input.type === 'checkbox') {
+                    formData[key] = input.checked;
+                } else {
+                    formData[key] = input.value.trim();
+                }
+            });
+
+            // Validar datos
+            for (const key in formData) {
+                if (formData[key] === '') {
+                    alert(`Por favor, complete el campo: ${key}`);
+                    return null;
+                }
+            }
+
+            return formData;
+        }
+
+
+        // Mostrar formulario para agregar o editar
+        function showForm(entity, mode = 'add', id = null) {
+            // Ocultar todos los formularios
+            const allForms = document.querySelectorAll('.form-section');
+            allForms.forEach((form) => {
+                form.classList.add('hidden');
+                form.classList.remove('flex');
+            });
+
+            // Mostrar el formulario correspondiente con display:flex
+            const formToShow = document.getElementById(`form-${entity}`);
+            if (formToShow) {
+                formToShow.classList.remove('hidden');
+                formToShow.classList.add('flex');
+            }
+
+            // Actualizar el estado global de la entidad actual
+            currentEntity = entity;
+
+            // Obtener el botón "Agregar Nuevo"
+            const addButton = document.querySelector('button[onclick^="showForm"]');
+
+            if (addButton) {
+                if (mode === 'add') {
+                    // Cambiar a modo "Agregar"
+                    addButton.textContent = `Agregar ${capitalize(entity)}`;
+                    addButton.setAttribute('onclick', `addEntity('${entity}')`);
+                    clearForm(entity); // Limpia el formulario para agregar
+                } else if (mode === 'edit') {
+                    // Cambiar a modo "Guardar Cambios"
+                    addButton.textContent = `Guardar Cambios`;
+                    addButton.setAttribute('onclick', `editEntity(${id}, '${entity}')`);
+                    populateForm(id, entity); // Cargar los datos en el formulario
+                }
+            }
         }
 
 
